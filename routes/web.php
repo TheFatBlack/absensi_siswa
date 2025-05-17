@@ -2,6 +2,20 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
+
+use App\Http\Controllers\sesicontroller;
+
+use App\Http\Controllers\dashboardcontroller;
+
+
+Route::fallback(function () {
+    return response()->view('template-admin.error', [], 404);
+});
+
+Route::get('/', [sesicontroller::class, 'tampilLogin'])->name('login');
+Route::post('/login/submit', [sesicontroller::class, 'submitLogin'])->name('login.submit');
+Route::post('/logout', [sesicontroller::class, 'logout'])->name('logout');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/dashboardAdmin', [dashboardcontroller::class, 'dashboardAdmin'])->name('dashboard-admin');
 });
