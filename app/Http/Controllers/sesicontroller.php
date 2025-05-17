@@ -33,7 +33,7 @@ class sesiController extends Controller
         })->first();
 
         if ($userByPassword) {
-            return redirect()->back()->with('error', 'Username salah.');
+            return redirect()->back()->with('error', 'Username anda salah.');
         }
 
         return redirect()->back()->with('error', 'Username dan password anda salah.');

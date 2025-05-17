@@ -148,21 +148,4 @@
     <script type="text/javascript" src="{{ asset('assets/js/common-pages.js') }}"></script>
 </body>
 
-@section('js')
-<script>
-function togglePassword() {
-    let passwordInput = document.getElementById("password");
-    let eyeIcon = document.getElementById("eyeIcon");
-
-    if (passwordInput.type === "password") {
-        passwordInput.type = "text";
-        eyeIcon.classList.replace("bi-eye", "bi-eye-slash");
-    } else {
-        passwordInput.type = "password";
-        eyeIcon.classList.replace("bi-eye-slash", "bi-eye");
-    }
-}
-</script>
-@endsection
-
 </html>

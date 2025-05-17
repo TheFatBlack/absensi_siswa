@@ -9,7 +9,7 @@
                 </a>
             </li>
             <li class="active nav-item">
-                <a href="">
+                <a class="nav-link {{ $menu == 'guru' ? '' : 'collapsed' }}" href="{{ route('guru.index') }}">
                     <span class="pcoded-micon"><i class="ti-user"></i></span>
                     <span class="pcoded-mtext">Guru</span>
                 </a>
