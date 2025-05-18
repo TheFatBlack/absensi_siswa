@@ -16,7 +16,7 @@
             <!-- Basic Form Inputs card start -->
             <div class="card">
                 <div class="card-header">
-                    <h5>Tambah Data Siswa</h5>
+                    <h5>Edit Data {{$siswa->nama}}</h5>
                     <div class="card-header-right"><i class="icofont icofont-spinner-alt-5"></i></div>
 
                     <div class="card-header-right">

@@ -21,10 +21,27 @@
                 </a>
             </li>
             <li class="active nav-item">
-                <a class=" nav-link {{ $menu == 'local' || $menu == 'jurusan' ? '' : 'collapsed' }}"
+                <a class="nav-link {{ $menu == 'local' || $menu == 'jurusan' ? '' : 'collapsed' }}"
                     href="{{ route('local.index') }}">
                     <span class="pcoded-micon"><i class="ti-home"></i></span>
                     <span class="pcoded-mtext">Local</span>
+                </a>
+            </li>
+            <li class="active nav-item">
+                <a> <span class="pcoded-micon"><i class="ti ti-clipboard"></i></span>
+                    <span class="pcoded-mtext">Absen</span>
+                </a>
+            </li>
+            <li class="active nav-item">
+                <a class="nav-link {{ $menu == 'walikelas' ? '' : 'collapsed' }}" href="{{ route('walikelas.index') }}">
+                    <span class="pcoded-micon"><i class="ti ti-user"></i></span>
+                    <span class="pcoded-mtext">Wali Kelas</span>
+                </a>
+            </li>
+            <li class="active nav-item">
+                <a class="nav-link {{ $menu == 'user' ? '' : 'collapsed' }}" href="{{ route('user.index') }}">
+                    <span class="pcoded-micon"><i class="ti ti-user"></i></span>
+                    <span class="pcoded-mtext">User</span>
                 </a>
             </li>
         </ul>

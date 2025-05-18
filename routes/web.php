@@ -33,5 +33,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('siswa', siswacontroller::class);
     Route::resource('jurusan', jurusancontroller::class);
     Route::resource('local', localcontroller::class);
+    Route::resource('walikelas', walikelascontroller::class);
     Route::resource('guru', gurucontroller::class);
+    Route::resource('user', usercontroller::class);
 });
