@@ -30,26 +30,28 @@
                         <div class=" form-group row">
                             <label for="nip" class="col-sm-2 col-form-label">NIP</label>
                             <div class="col-sm-10">
-                                <input type="number" class="form-control" id="nip" name="nip" value="{{$guru->nip}}">
+                                <input type="number" class="form-control" id="nip" name="nip" value="{{$guru->nip}}"
+                                    disabled>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="nama" class="col-sm-2 col-form-label">Nama</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="nama" name="nama" value="{{$guru->nama}}">
+                                <input type="text" class="form-control" id="nama" name="nama" value="{{$guru->nama}}"
+                                    disabled>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="username" class="col-sm-2 col-form-label">Username</label>
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" id="username" name="username"
-                                    value="{{$guru->username}}">
+                                    value="{{$guru->username}}" disabled>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="jk" class="col-sm-2 col-form-label">Jenis Kelamin</label>
                             <div class="col-sm-10">
-                                <select name="jk" id="jk" class="form-control" require>
+                                <select name="jk" id="jk" class="form-control" disabled>
                                     <option disabled selected value="{{$guru->jk}}">{{$guru->jk}}</option>
                                 </select>
                             </div>
@@ -57,14 +59,15 @@
                         <div class=" form-group row">
                             <label for="nohp" class="col-sm-2 col-form-label">Nomor Handphone</label>
                             <div class="col-sm-10">
-                                <input type="number" class="form-control" id="nohp" name="nohp" value="{{$guru->nohp}}">
+                                <input type="number" class="form-control" id="nohp" name="nohp" value="{{$guru->nohp}}"
+                                    disabled>
                             </div>
                         </div>
                         <div class=" form-group row">
                             <label for="tanggal_lahir" class="col-sm-2 col-form-label">Tanggal Lahir</label>
                             <div class="col-sm-10">
                                 <input type="date" class="form-control" id="tanggal_lahir" name="tanggal_lahir"
-                                    value="{{$guru->tanggal_lahir}}">
+                                    value="{{$guru->tanggal_lahir}}" disabled>
                             </div>
                         </div>
                         <input type="hidden" name="id_user" value="2">

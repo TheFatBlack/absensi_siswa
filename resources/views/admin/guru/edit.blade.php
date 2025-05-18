@@ -49,9 +49,12 @@
                         </div>
                         <div class="form-group row">
                             <label for="password" class="col-sm-2 col-form-label">Password</label>
-                            <div class="col-sm-10 ">
-                                <input type="password" class="form-control" id="password" name="password"
+                            <div class="col-sm-10 position-relative">
+                                <input type="password" class="form-control pr-5" id="password" name="password"
                                     placeholder="biarkan kosong jika tidak ingin mengganti password">
+                                <i class="ti-eye mr-3" id="togglePassword"
+                                    style="position: absolute; top: 50%; right: 15px; transform: translateY(-50%); cursor: pointer;"
+                                    title="Lihat password"></i>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -95,4 +98,27 @@
         </div>
     </div>
 </div>
+@endsection
+@section('js')
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const togglePassword = document.getElementById('togglePassword');
+    const passwordInput = document.getElementById('password');
+    let visible = false;
+
+    togglePassword.addEventListener('click', function() {
+        visible = !visible;
+
+        if (visible) {
+            passwordInput.setAttribute('type', 'text');
+            this.style.color = "#007bff";
+            this.setAttribute('title', 'Sembunyikan password');
+        } else {
+            passwordInput.setAttribute('type', 'password');
+            this.style.color = "";
+            this.setAttribute('title', 'Lihat password');
+        }
+    });
+});
+</script>
 @endsection

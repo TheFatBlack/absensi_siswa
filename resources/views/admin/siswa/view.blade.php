@@ -1,5 +1,5 @@
 @extends('template-admin.layout')
-@section('title', 'Data Guru')
+@section('title', 'Show Data ' . $siswa->nama)
 @section('css')
 <link rel="icon" href="{{asset('assets/images/favicon.ico')}}" type="image/x-icon">
 <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600" rel="stylesheet">
@@ -16,7 +16,7 @@
             <!-- Basic Form Inputs card start -->
             <div class="card">
                 <div class="card-header">
-                    <h5>Tambah Data Guru</h5>
+                    <h5>Show Data {{$siswa->nama}}</h5>
                     <div class="card-header-right"><i class="icofont icofont-spinner-alt-5"></i></div>
 
                     <div class="card-header-right">
@@ -25,74 +25,86 @@
 
                 </div>
                 <div class="card-block">
-                    <form method="POST" action="{{ route('guru.store') }}">
+                    <form>
                         @csrf
                         <div class=" form-group row">
-                            <label for="nip" class="col-sm-2 col-form-label">NIP</label>
+                            <label for="nisn" class="col-sm-2 col-form-label">Nisn</label>
                             <div class="col-sm-10">
-                                <input type="number" class="form-control" id="nip" name="nip" placeholder="masukkan nip"
-                                    required>
+                                <input type="number" class="form-control" id="nisn" name="nisn" value="{{$siswa->nisn}}"
+                                    disabled>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="nama" class="col-sm-2 col-form-label">Nama</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="nama" name="nama"
-                                    placeholder="masukkan nama" required>
+                                <input type="text" class="form-control" id="nama" name="nama" value="{{$siswa->nama}}"
+                                    disabled>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="username" class="col-sm-2 col-form-label">Username</label>
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" id="username" name="username"
-                                    placeholder="masukkan username" required>
+                                    value="{{$siswa->username}}" disabled>
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="password" class="col-sm-2 col-form-label">Password</label>
-                            <div class="col-sm-10 position-relative">
-                                <input type="password" class="form-control pr-5" id="password" name="password"
-                                    placeholder="Masukkan password" required>
-                                <i class="ti-eye mr-3" id="togglePassword"
-                                    style="position: absolute; top: 50%; right: 15px; transform: translateY(-50%); cursor: pointer;"
-                                    title="Lihat password"></i>
+                            <label for="kelas" class="col-sm-2 col-form-label">Kelas</label>
+                            <div class="col-sm-10">
+                                <select name="id_local" id="id_local" class="form-control" disabled>
+                                    <option disabled selected value="{{$siswa->local_id}}">
+                                        {{ $siswa->local ? $siswa->local->nama : 'Pilih Kelas' }}</option>
+                                </select>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="jk" class="col-sm-2 col-form-label">Jenis Kelamin</label>
                             <div class="col-sm-10">
-                                <select name="jk" id="jk" class="form-control" required>
-                                    <option disabled selected value="">Pilih Jenis Kelamin</option>
-                                    <option value="L">Laki-Laki</option>
-                                    <option value="P">Perempuan</option>
+                                <select name="jk" id="jk" class="form-control" disabled>
+                                    <option disabled selected value="{{$siswa->jk}}">{{$siswa->jk}}</option>
                                 </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="alamat" class="col-sm-2 col-form-label">Alamat</label>
+                            <div class="col-sm-10">
+                                <textarea rows="5" cols="5" name="alamat" id="alamat" class="form-control"
+                                    disabled>{{$siswa->alamat}}</textarea>
                             </div>
                         </div>
                         <div class=" form-group row">
                             <label for="nohp" class="col-sm-2 col-form-label">Nomor Handphone</label>
                             <div class="col-sm-10">
-                                <input type="number" class="form-control" id="nohp" name="nohp"
-                                    placeholder="masukkan nohp" required>
+                                <input type="number" class="form-control" id="nohp" name="nohp" value="{{$siswa->nohp}}"
+                                    disabled>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="nama_wm" class="col-sm-2 col-form-label">Nama WaliMurid</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="nama_wm" name="nama_wm"
+                                    value="{{$siswa->nama_wm}}" disabled>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="alamat_wm" class="col-sm-2 col-form-label">Alamat WaliMurid</label>
+                            <div class="col-sm-10">
+                                <textarea rows="5" cols="5" name="alamat_wm" id="alamat_wm" class="form-control"
+                                    disabled>{{ $siswa->alamat_wm }}</textarea>
                             </div>
                         </div>
                         <div class=" form-group row">
-                            <label for="tanggal_lahir" class="col-sm-2 col-form-label">Tanggal Lahir</label>
+                            <label for="nohp_wm" class="col-sm-2 col-form-label">Nomor Handphone WaliMurid</label>
                             <div class="col-sm-10">
-                                <input type="date" class="form-control" id="tanggal_lahir" name="tanggal_lahir"
-                                    placeholder="masukkan tanggal_lahir" required>
+                                <input type="number" class="form-control" id="nohp_wm" name="nohp_wm"
+                                    value="{{$siswa->nohp_wm}}" disabled>
                             </div>
                         </div>
                         <input type="hidden" name="id_user" value="2">
                         <div class="text-end">
-                            <a href="{{route('guru.index')}}" class="btn btn-primary">
+                            <a href="{{ route('siswa.index') }}" class="btn btn-primary">
                                 <i class="ti-arrow-left"></i> Kembali
                             </a>
-                            <button type="reset" class="btn btn-warning">
-                                <i class="ti-reload"></i> Reset
-                            </button>
-                            <button type="submit" class="btn btn-success">
-                                <i class="ti-save"></i> Simpan
-                            </button>
                         </div>
                     </form>
                 </div>
@@ -100,27 +112,4 @@
         </div>
     </div>
 </div>
-@endsection
-@section('js')
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-    const togglePassword = document.getElementById('togglePassword');
-    const passwordInput = document.getElementById('password');
-    let visible = false;
-
-    togglePassword.addEventListener('click', function() {
-        visible = !visible;
-
-        if (visible) {
-            passwordInput.setAttribute('type', 'text');
-            this.style.color = "#007bff";
-            this.setAttribute('title', 'Sembunyikan password');
-        } else {
-            passwordInput.setAttribute('type', 'password');
-            this.style.color = "";
-            this.setAttribute('title', 'Lihat password');
-        }
-    });
-});
-</script>
 @endsection

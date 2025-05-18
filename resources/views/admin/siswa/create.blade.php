@@ -1,5 +1,5 @@
 @extends('template-admin.layout')
-@section('title', 'Data Guru')
+@section('title', 'Tambah Data Siswa')
 @section('css')
 <link rel="icon" href="{{asset('assets/images/favicon.ico')}}" type="image/x-icon">
 <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600" rel="stylesheet">
@@ -9,31 +9,26 @@
 <link rel="stylesheet" type="text/css" href="{{asset('assets/css/style.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('assets/css/jquery.mCustomScrollbar.css')}}">
 @endsection
+
 @section('konten')
 <div class="page-body">
     <div class="row">
         <div class="col-sm-12">
-            <!-- Basic Form Inputs card start -->
             <div class="card">
                 <div class="card-header">
-                    <h5>Tambah Data Guru</h5>
-                    <div class="card-header-right"><i class="icofont icofont-spinner-alt-5"></i></div>
-
-                    <div class="card-header-right">
-                        <i class="icofont icofont-spinner-alt-5"></i>
-                    </div>
-
+                    <h5>Tambah Data Siswa</h5>
                 </div>
                 <div class="card-block">
-                    <form method="POST" action="{{ route('guru.store') }}">
+                    <form method="POST" action="{{ route('siswa.store') }}">
                         @csrf
-                        <div class=" form-group row">
-                            <label for="nip" class="col-sm-2 col-form-label">NIP</label>
+                        <div class="form-group row">
+                            <label for="nisn" class="col-sm-2 col-form-label">Nisn</label>
                             <div class="col-sm-10">
-                                <input type="number" class="form-control" id="nip" name="nip" placeholder="masukkan nip"
-                                    required>
+                                <input type="number" class="form-control" id="nisn" name="nisn"
+                                    placeholder="masukkan nisn" required>
                             </div>
                         </div>
+
                         <div class="form-group row">
                             <label for="nama" class="col-sm-2 col-form-label">Nama</label>
                             <div class="col-sm-10">
@@ -41,6 +36,7 @@
                                     placeholder="masukkan nama" required>
                             </div>
                         </div>
+
                         <div class="form-group row">
                             <label for="username" class="col-sm-2 col-form-label">Username</label>
                             <div class="col-sm-10">
@@ -48,6 +44,7 @@
                                     placeholder="masukkan username" required>
                             </div>
                         </div>
+
                         <div class="form-group row">
                             <label for="password" class="col-sm-2 col-form-label">Password</label>
                             <div class="col-sm-10 position-relative">
@@ -58,6 +55,19 @@
                                     title="Lihat password"></i>
                             </div>
                         </div>
+
+                        <div class="form-group row">
+                            <label for="kelas" class="col-sm-2 col-form-label">Kelas</label>
+                            <div class="col-sm-10">
+                                <select name="id_local" id="id_local" class="form-control" required>
+                                    <option disabled selected value="">Pilih Kelas</option>
+                                    @foreach($kelas as $k)
+                                    <option value="{{$k['id']}}">{{$k['nama']}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
                         <div class="form-group row">
                             <label for="jk" class="col-sm-2 col-form-label">Jenis Kelamin</label>
                             <div class="col-sm-10">
@@ -68,23 +78,51 @@
                                 </select>
                             </div>
                         </div>
-                        <div class=" form-group row">
+
+                        <div class="form-group row">
+                            <label for="alamat" class="col-sm-2 col-form-label">Alamat</label>
+                            <div class="col-sm-10">
+                                <textarea rows="5" cols="5" name="alamat" id="alamat" class="form-control"
+                                    placeholder="masukkan alamat" required></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
                             <label for="nohp" class="col-sm-2 col-form-label">Nomor Handphone</label>
                             <div class="col-sm-10">
                                 <input type="number" class="form-control" id="nohp" name="nohp"
                                     placeholder="masukkan nohp" required>
                             </div>
                         </div>
-                        <div class=" form-group row">
-                            <label for="tanggal_lahir" class="col-sm-2 col-form-label">Tanggal Lahir</label>
+
+                        <div class="form-group row">
+                            <label for="nama_wm" class="col-sm-2 col-form-label">Nama WaliMurid</label>
                             <div class="col-sm-10">
-                                <input type="date" class="form-control" id="tanggal_lahir" name="tanggal_lahir"
-                                    placeholder="masukkan tanggal_lahir" required>
+                                <input type="text" class="form-control" id="nama_wm" name="nama_wm"
+                                    placeholder="masukkan walimurid" required>
                             </div>
                         </div>
+
+                        <div class="form-group row">
+                            <label for="alamat_wm" class="col-sm-2 col-form-label">Alamat WaliMurid</label>
+                            <div class="col-sm-10">
+                                <textarea rows="5" cols="5" name="alamat_wm" id="alamat_wm" class="form-control"
+                                    placeholder="masukkan alamat walimurid" required></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="nohp_wm" class="col-sm-2 col-form-label">Nomor Handphone WaliMurid</label>
+                            <div class="col-sm-10">
+                                <input type="number" class="form-control" id="nohp_wm" name="nohp_wm"
+                                    placeholder="masukkan nohp walimurid" required>
+                            </div>
+                        </div>
+
                         <input type="hidden" name="id_user" value="2">
+
                         <div class="text-end">
-                            <a href="{{route('guru.index')}}" class="btn btn-primary">
+                            <a href="{{ route('siswa.index') }}" class="btn btn-primary">
                                 <i class="ti-arrow-left"></i> Kembali
                             </a>
                             <button type="reset" class="btn btn-warning">
@@ -101,25 +139,17 @@
     </div>
 </div>
 @endsection
+
 @section('js')
 <script>
 document.addEventListener("DOMContentLoaded", function() {
     const togglePassword = document.getElementById('togglePassword');
     const passwordInput = document.getElementById('password');
-    let visible = false;
 
     togglePassword.addEventListener('click', function() {
-        visible = !visible;
-
-        if (visible) {
-            passwordInput.setAttribute('type', 'text');
-            this.style.color = "#007bff";
-            this.setAttribute('title', 'Sembunyikan password');
-        } else {
-            passwordInput.setAttribute('type', 'password');
-            this.style.color = "";
-            this.setAttribute('title', 'Lihat password');
-        }
+        const isVisible = passwordInput.getAttribute('type') === 'text';
+        passwordInput.setAttribute('type', isVisible ? 'password' : 'text');
+        this.setAttribute('title', isVisible ? 'Lihat password' : 'Sembunyikan password');
     });
 });
 </script>
