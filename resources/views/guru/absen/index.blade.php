@@ -61,7 +61,7 @@
                                         <th>Status</th>
                                         <th>Tanggal Absen</th>
                                         <th>Jam Absen</th>
-                                        <th>Guru yang Mengabsen</th>
+                                        <th>Guru/wali kelas yang Mengabsen</th>
                                         <th class="text-center">Aksi</th>
                                     </tr>
                                 </thead>

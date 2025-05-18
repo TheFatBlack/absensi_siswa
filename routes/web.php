@@ -40,4 +40,5 @@ Route::middleware('auth')->group(function () {
     Route::post('absen/updateStatus', [AbsenController::class, 'updateStatus'])->name('absen.updateStatus');
     Route::get('absen/{id}/edit', [AbsenController::class, 'edit'])->name('absen.edit');
     Route::put('absen/{id}', [AbsenController::class, 'update'])->name('absen.update');
+    Route::resource('rekap', rekapcontroller::class);
 });
