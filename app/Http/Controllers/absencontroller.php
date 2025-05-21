@@ -22,7 +22,7 @@ class AbsenController extends Controller
         }
 
         if ($request->has('tanggal_absen') && $request->tanggal_absen != '') {
-            $query->whereDate('tanggal', $request->tanggal_absen);
+            $query->whereDate('tanggal_absen', $request->tanggal_absen);
         }
 
         $dataabsen = $query->get();
@@ -36,7 +36,7 @@ class AbsenController extends Controller
         ]);
     }
 
-   public function create(Request $request)
+    public function create(Request $request)
     {
         $query = Siswa::with('local');
 
@@ -63,18 +63,16 @@ class AbsenController extends Controller
         ]);
 
         $statuses = $request->input('status', []);
-        $currentDate = now()->toDateString();
-        $currentTime = now()->toTimeString();
-        $guru = Guru::where('username', Auth::user()->username)->first(); // Get the logged-in guru
+        $currentDate = now('Asia/Jakarta')->toDateString();
+        $currentTime = now('Asia/Jakarta')->format('H:i:s');
+        $guru = Guru::where('username', Auth::user()->username)->first();
 
         foreach ($statuses as $id => $status) {
             $siswa = Siswa::findOrFail($id);
 
-            // Update status in siswa table
             $siswa->status = $status;
             $siswa->save();
 
-            // Create a new record in mengabsens table
             Mengabsen::create([
                 'tanggal_absen' => $currentDate,
                 'jam_absen' => $currentTime,
@@ -107,9 +105,10 @@ class AbsenController extends Controller
 
         $mengabsen = Mengabsen::findOrFail($id);
         $mengabsen->status = $validasi['status'];
+        $mengabsen->jam_absen = now('Asia/Jakarta')->format('H:i:s'); // gunakan timezone Asia/Jakarta
         $mengabsen->save();
 
-        $siswa = siswa::findOrFail($mengabsen->id_siswa);
+        $siswa = Siswa::findOrFail($mengabsen->id_siswa);
         $siswa->status = $validasi['status'];
         $siswa->save();
 
@@ -127,13 +126,13 @@ class AbsenController extends Controller
         }
 
         if ($request->has('tanggal_absen') && $request->tanggal_absen != '') {
-            $query->whereDate('tanggal', $request->tanggal_absen);
+            $query->whereDate('tanggal_absen', $request->tanggal_absen);
         }
 
         $dataabsen = $query->get();
         $locals = Local::all();
 
-        return view('walikelas.absen.index', [
+        return view('guru.absen.index', [
             'menu' => 'absen',
             'title' => 'Data Absen',
             'dataabsen' => $dataabsen,
@@ -152,7 +151,7 @@ class AbsenController extends Controller
         $datasiswa = $query->get();
         $locals = Local::all();
 
-        return view('walikelas.absen.create', [
+        return view('guru.absen.create', [
             'menu' => 'absen',
             'title' => 'Absen Siswa',
             'datasiswa' => $datasiswa,
@@ -168,19 +167,16 @@ class AbsenController extends Controller
         ]);
 
         $statuses = $request->input('status', []);
-        $currentDate = now()->toDateString();
-        $currentTime = now()->toTimeString();
+        $currentDate = now('Asia/Jakarta')->toDateString();
+        $currentTime = now('Asia/Jakarta')->format('H:i:s');
         $guru = Guru::where('id_user', Auth::id())->first();
-        // Get the logged-in guru
 
         foreach ($statuses as $id => $status) {
             $siswa = Siswa::findOrFail($id);
 
-            // Update status in siswa table
             $siswa->status = $status;
             $siswa->save();
 
-            // Create a new record in mengabsens table
             Mengabsen::create([
                 'tanggal_absen' => $currentDate,
                 'jam_absen' => $currentTime,
@@ -190,13 +186,12 @@ class AbsenController extends Controller
             ]);
         }
 
-        return redirect()->route('absenWalikelas.index');
-    }
+return redirect(route('absen.index'))->with('success', 'Status siswa berhasil diperbarui.');    }
 
     public function editWalikelas($id)
     {
         $mengabsen = Mengabsen::with('siswa.local')->findOrFail($id);
-        return view('walikelas.absen.ubah', [
+        return view('guru.absen.ubah', [
             'menu' => 'absen',
             'title' => 'Edit Absen',
             'mengabsen' => $mengabsen
@@ -213,14 +208,15 @@ class AbsenController extends Controller
 
         $mengabsen = Mengabsen::findOrFail($id);
         $mengabsen->status = $validasi['status'];
+        $mengabsen->jam_absen = now('Asia/Jakarta')->format('H:i:s'); // gunakan timezone Asia/Jakarta
         $mengabsen->save();
 
         $siswa = Siswa::findOrFail($mengabsen->id_siswa);
         $siswa->status = $validasi['status'];
         $siswa->save();
 
-        return redirect(route('absenWalikelas.index'))->with('success', 'Status siswa berhasil diperbarui.');
-    }
+return redirect(route('absen.index'))->with('success', 'Status siswa berhasil diperbarui.');    }
+
     public function indexSiswa(Request $request)
     {
         $query = Mengabsen::with(['siswa', 'guru']);
@@ -232,7 +228,7 @@ class AbsenController extends Controller
         }
 
         if ($request->has('tanggal_absen') && $request->tanggal_absen != '') {
-            $query->whereDate('tanggal', $request->tanggal_absen);
+            $query->whereDate('tanggal_absen', $request->tanggal_absen);
         }
 
         $dataabsen = $query->get();

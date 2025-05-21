@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('mengabsens', function (Blueprint $table) {
             $table->id();
             $table->date('tanggal_absen');
-            $table->time('jam_absen');
+            $table->time('jam_absen')->nullable();
             $table->enum('status', ['hadir', 'izin', 'sakit', 'alpa']);
             $table->foreignId('id_siswa')->references('id')->on('siswas')->onDelete('cascade');
             $table->foreignId('id_guru')->references('id')->on('gurus')->onDelete('cascade');

@@ -73,11 +73,11 @@
                         </script>
                         @elseif(Auth::user()-> level=='siswa')
                         <script>
-                        window.location = "{{ route('rekap.index') }}";
+                        window.location = "{{ route('dashboard-siswa') }}";
                         </script>
                         @elseif(Auth::user()-> level=='walikelas')
                         <script>
-                        window.location = "{{ route('dashboard-walikelas') }}";
+                        window.location = "{{ route('dashboard-guru') }}";
                         </script>
                         @endif
                         @endif
