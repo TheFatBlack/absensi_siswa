@@ -40,6 +40,13 @@
                                         </select>
                                     </div>
                                 </div>
+                                <div class="form-group row">
+                                    <label for="jam_absen" class="col-sm-2 col-form-label">Jam Absen</label>
+                                    <div class="col-sm-10">
+                                        <input type="time" class="form-control" id="jam_absen" name="jam_absen"
+                                            value="{{ old('jam_absen', $mengabsen->jam_absen ?? now()->format('H:i')) }}">
+                                    </div>
+                                </div>
                                 <div class="text-end">
                                     <a href="{{route('absen.index')}}" class="btn btn-primary">
                                         <i class="ti-arrow-left"></i> Kembali

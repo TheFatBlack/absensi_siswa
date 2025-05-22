@@ -55,7 +55,7 @@ class sesiController extends Controller
 
     $siswa = Siswa::where('username', $user->username)->first();
     if ($siswa) {
-        return redirect()->route('rekap.index');
+        return redirect()->route('dashboard-siswa');
     }
 
     if ($user->level === 'admin') {

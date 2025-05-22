@@ -15,107 +15,99 @@
         <div class="col-sm-12">
             <div class="card">
                 <div class="card-block">
-                    <form method="GET" action="{{ route('rekap.index') }}">
-                        <div class="form-group row">
-                            <div class="col-sm-10">
-                                <select name="kelas" id="kelas-select" class="form-control">
-                                    <option value="">Pilih Kelas</option>
-                                    @foreach($locals as $local)
-                                    <option value="{{ $local->id }}"
-                                        {{ request('kelas') == $local->id ? 'selected' : '' }}>
-                                        {{ $local->nama }}
-                                    </option>
-                                    @endforeach
-                                </select>
+                    <h5>Rekap Absen {{ $siswa->nama }} ({{ $siswa->local->nama ?? '-' }})</h5>
+
+                    <form method="GET" action="{{ route('rekap.index') }}" class="mb-3">
+                        <div class="row g-2">
+                            <div class="col-md-3">
+                                <input type="month" name="bulan" class="form-control" value="{{ request('bulan') }}">
+                            </div>
+                            <div class="col-md-3">
+                                <input type="date" name="tanggal" class="form-control" value="{{ request('tanggal') }}">
+                            </div>
+                            <div class="col-md-3">
+                                <button type="submit" class="btn btn-primary">Filter</button>
+                                <a href="{{ route('rekap.index') }}" class="btn btn-secondary">Reset</a>
                             </div>
                         </div>
-                        <div class="text-end">
-                            <button type="submit" class="btn btn-primary mb-3">Filter</button>
-                        </div>
                     </form>
-                    <script>
-                    document.getElementById('btn-absen').addEventListener('click', function() {
-                        var kelasId = document.getElementById('kelas-select').value;
-                        if (!kelasId) {
-                            alert('Silakan pilih kelas terlebih dahulu!');
-                            return;
-                        }
-                        var url = "{{ route('absen.create') }}" + "?kelas=" + kelasId;
-                        window.location.href = url;
-                    });
-                    </script>
-                </div>
-                @if(request('kelas') && $siswaKelas->count())
-                <div class="mb-3">
-                    <a href="{{ route('rekap.export.pdf', ['kelas' => request('kelas')]) }}" class="btn btn-danger"
-                        target="_blank">
-                        <i class="icofont icofont-file-pdf"></i> Download PDF
-                    </a>
-                    <a href="{{ route('rekap.export.excel', ['kelas' => request('kelas')]) }}" class="btn btn-success"
-                        target="_blank">
-                        <i class="icofont icofont-file-excel"></i> Download Excel
-                    </a>
-                </div>
-                @endif
-                @if(request('kelas') && $siswaKelas->count())
-                <div class="card mt-3">
-                    <div class="card-header">
-                        <h5>Rekap Absen Detail Kelas {{$locals->firstWhere('id', request('kelas'))->nama ?? '-'}}</h5>
-                    </div>
-                    <div class="card-block table-border-style">
-                        <div class="table-responsive">
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>Nama Siswa</th>
-                                        <th>Tanggal</th>
-                                        <th>Hari</th>
-                                        <th>Status</th>
-                                        <th>Total Hadir</th>
-                                        <th>Total Sakit</th>
-                                        <th>Total Izin</th>
-                                        <th>Total Alpa</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($siswaKelas as $siswaItem)
-                                    @php
-                                    $absens = $rekapAbsensi->where('id_siswa', $siswaItem->id)->sortBy('tanggal_absen');
-                                    $totalHadir = $absens->where('status', 'hadir')->count();
-                                    $totalSakit = $absens->where('status', 'sakit')->count();
-                                    $totalIzin = $absens->where('status', 'izin')->count();
-                                    $totalAlpa = $absens->where('status', 'alpa')->count();
-                                    @endphp
-                                    @foreach($absens as $absen)
-                                    <tr>
-                                        <td>{{ $siswaItem->nama }}</td>
-                                        <td>{{ \Carbon\Carbon::parse($absen->tanggal_absen)->format('d-m-Y') }}</td>
-                                        <td>{{ \Carbon\Carbon::parse($absen->tanggal_absen)->translatedFormat('l') }}
-                                        </td>
-                                        <td>
-                                            @if($absen->status == 'hadir')
-                                            <span class="badge bg-success">Hadir</span>
-                                            @elseif($absen->status == 'sakit')
-                                            <span class="badge bg-warning">Sakit</span>
-                                            @elseif($absen->status == 'izin')
-                                            <span class="badge bg-info">Izin</span>
-                                            @else
-                                            <span class="badge bg-danger">Alpa</span>
-                                            @endif
-                                        </td>
-                                        <td>{{ $totalHadir }}</td>
-                                        <td>{{ $totalSakit }}</td>
-                                        <td>{{ $totalIzin }}</td>
-                                        <td>{{ $totalAlpa }}</td>
-                                    </tr>
-                                    @endforeach
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Tanggal</th>
+                                    <th>Bulan</th>
+                                    <th>Tahun</th>
+                                    <th>Jam Masuk</th>
+                                    <th>Hari</th>
+                                    <th>Status</th>
+                                    <th>Guru/Walikelas</th>
+                                </tr>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @php
+                                $filtered = $rekapAbsensi;
+                                if(request('bulan')) {
+                                $bulan = \Carbon\Carbon::parse(request('bulan'));
+                                $filtered = $filtered->filter(function($item) use ($bulan) {
+                                return \Carbon\Carbon::parse($item->tanggal_absen)->month == $bulan->month
+                                && \Carbon\Carbon::parse($item->tanggal_absen)->year == $bulan->year;
+                                });
+                                }
+                                if(request('tanggal')) {
+                                $filtered = $filtered->where('tanggal_absen', request('tanggal'));
+                                }
+                                $totalHadir = $filtered->where('status', 'hadir')->count();
+                                $totalSakit = $filtered->where('status', 'sakit')->count();
+                                $totalIzin = $filtered->where('status', 'izin')->count();
+                                $totalAlpa = $filtered->where('status', 'alpa')->count();
+                                @endphp
+                                @forelse($filtered as $i => $absen)
+                                <tr>
+                                    <td>{{ $i+1 }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($absen->tanggal_absen)->format('d') }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($absen->tanggal_absen)->translatedFormat('F') }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($absen->tanggal_absen)->format('Y') }}</td>
+                                    <td>{{ $absen->jam_absen ?? '-' }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($absen->tanggal_absen)->translatedFormat('l') }}</td>
+                                    <td>
+                                        @if($absen->status == 'hadir')
+                                        <span class="badge bg-success">Hadir</span>
+                                        @elseif($absen->status == 'sakit')
+                                        <span class="badge bg-warning">Sakit</span>
+                                        @elseif($absen->status == 'izin')
+                                        <span class="badge bg-info">Izin</span>
+                                        @else
+                                        <span class="badge bg-danger">Alpa</span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        {{ $absen->guru->nama ?? $absen->walikelas->nama ?? '-' }}
+                                    </td>
+                                </tr>
+                                @empty
+                                <tr>
+                                    <td colspan="8" class="text-center">Tidak ada data absen.</td>
+                                </tr>
+                                @endforelse
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th colspan="8">
+                                        Total Hadir: {{ $totalHadir }} |
+                                        Sakit: {{ $totalSakit }} |
+                                        Izin: {{ $totalIzin }} |
+                                        Alpa: {{ $totalAlpa }}
+                                    </th>
+                                </tr>
+                            </tfoot>
+                        </table>
                     </div>
                 </div>
-                @endif
             </div>
         </div>
     </div>

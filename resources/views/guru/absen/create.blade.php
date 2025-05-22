@@ -54,6 +54,13 @@
                             <form method="POST" action="{{ route('absen.updateStatus') }}">
                                 @csrf
                                 <table class="table">
+                                    <div class="form-group row">
+                                        <label for="jam_absen" class="col-sm-2 col-form-label">Jam Absen</label>
+                                        <div class="col-sm-4">
+                                            <input type="time" name="jam_absen" id="jam_absen" class="form-control"
+                                                value="{{ now()->format('H:i') }}">
+                                        </div>
+                                    </div>
                                     <thead>
                                         <tr>
                                             <th>No</th>

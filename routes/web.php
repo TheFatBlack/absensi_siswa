@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\gurucontroller;
+use App\Http\Controllers\GuruController;
 use App\Http\Controllers\sesicontroller;
 use App\Http\Controllers\usercontroller;
 use App\Http\Controllers\absencontroller;
@@ -25,7 +25,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboardAdmin', [dashboardcontroller::class, 'dashboardAdmin'])->name('dashboard-admin');
 
     Route::resource('siswa', siswacontroller::class);
-    Route::resource('guru', gurucontroller::class);
+    Route::resource('guru', GuruController::class);
     Route::resource('local', localcontroller::class);
     Route::resource('jurusan', jurusancontroller::class);
     Route::resource('walikelas', walikelascontroller::class);

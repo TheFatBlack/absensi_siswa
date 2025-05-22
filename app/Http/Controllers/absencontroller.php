@@ -56,34 +56,33 @@ class AbsenController extends Controller
     }
 
     public function updateStatus(Request $request)
-    {
-        $request->validate([
-            'status' => 'required|array',
-            'status.*' => 'in:hadir,izin,sakit,alpa',
-        ]);
+{
+    foreach ($request->status as $id_siswa => $status) {
+        $tanggal = $request->tanggal_absen ?? now()->toDateString();
+        $jam = $request->jam_absen ?? now()->format('H:i');
 
-        $statuses = $request->input('status', []);
-        $currentDate = now('Asia/Jakarta')->toDateString();
-        $currentTime = now('Asia/Jakarta')->format('H:i:s');
-        $guru = Guru::where('username', Auth::user()->username)->first();
+        // Cek apakah sudah ada absen untuk siswa, tanggal, dan jam ini
+        $absen = \App\Models\Mengabsen::where('id_siswa', $id_siswa)
+            ->whereDate('tanggal_absen', $tanggal)
+            ->where('jam_absen', $jam)
+            ->first();
 
-        foreach ($statuses as $id => $status) {
-            $siswa = Siswa::findOrFail($id);
-
-            $siswa->status = $status;
-            $siswa->save();
-
-            Mengabsen::create([
-                'tanggal_absen' => $currentDate,
-                'jam_absen' => $currentTime,
-                'status' => $status,
-                'id_guru' => $guru->id,
-                'id_siswa' => $id,
-            ]);
+        if ($absen) {
+            $absen->status = $status;
+            $absen->updated_at = now();
+            $absen->save();
+        } else {
+            \App\Models\Mengabsen::create([
+    'id_siswa'      => $id_siswa,
+    'tanggal_absen' => $tanggal,
+    'jam_absen'     => $jam,
+    'status'        => $status,
+    'id_guru'       => Auth::id(),
+]);
         }
-
-        return redirect()->route('absen.index')->with('success', 'Status siswa dan tanggal absen berhasil diperbarui.');
     }
+    return redirect()->route('absen.index')->with('success', 'Absen berhasil disimpan/diupdate!');
+}
 
     public function edit($id)
     {
