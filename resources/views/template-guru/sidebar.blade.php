@@ -15,7 +15,7 @@
                 </a>
             </li>
             <li class="active nav-item">
-                <a class="nav-link {{ $menu == 'absen' ? '' : 'collapsed' }}" href="{{ route('rekap.index') }}">
+                <a class="nav-link {{ $menu == 'rekap' ? '' : 'collapsed' }}" href="{{ route('rekap.index') }}">
                     <span class="pcoded-micon"><i class="ti ti-agenda"></i></span>
                     <span class="pcoded-mtext">Rekap</span>
                 </a>
