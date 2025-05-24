@@ -4,7 +4,7 @@
         <ul class="pcoded-item pcoded-left-item">
             <li class="active nav-item">
                 <a class="nav-link {{ $menu == 'dashboard' ? '' : 'collapsed' }}" href="{{ route('dashboard-siswa') }}">
-                    <span class=" pcoded-micon"><i class="ti ti-clipboard"></i></span>
+                    <span class=" pcoded-micon"><i class="ti-layout-grid2-alt"></i></span>
                     <span class="pcoded-mtext">Dashboard</span>
                 </a>
             </li>

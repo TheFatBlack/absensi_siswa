@@ -20,9 +20,6 @@ class gurucontroller extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         return view('admin.guru.create', [
@@ -31,9 +28,6 @@ class gurucontroller extends Controller
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $validasi = $request->validate([
@@ -83,9 +77,6 @@ class gurucontroller extends Controller
         ]);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function edit($id)
     {
         $guru = Guru::find($id);
@@ -131,9 +122,6 @@ class gurucontroller extends Controller
         return redirect(route('guru.index'));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy($id)
     {
         $guru = guru::findOrFail($id);
